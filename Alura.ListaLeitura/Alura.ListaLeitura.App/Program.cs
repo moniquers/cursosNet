@@ -18,7 +18,7 @@ namespace Alura.ListaLeitura.App
                 .Build();
             host.Run();
 
-            ImprimeLista(_repo.ParaLer);
+            //ImprimeLista(_repo.ParaLer);
             //ImprimeLista(_repo.Lendo);
             //ImprimeLista(_repo.Lidos);
         }
