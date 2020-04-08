@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Alura.ListaLeitura.App.Negocio;
 using Alura.ListaLeitura.App.Repositorio;
@@ -27,12 +28,20 @@ namespace Alura.ListaLeitura.App
             routeBuilder.MapRoute("Livros/Lidos", LivrosLidos);
             routeBuilder.MapRoute("Livros/Lendo", LivrosLendo);
             routeBuilder.MapRoute("Cadastro/NovoLivro/{nome}/{autor}", NovoLivroParaLer);
-
+            routeBuilder.MapRoute("Livros/Detalhes/{id:int}", ExibeDetalhes);
             var rotas = routeBuilder.Build();
 
             app.UseRouter(rotas);
 
-            //app.Run(Roteamento);
+        }
+
+        private Task ExibeDetalhes(HttpContext context)
+        {
+            int id = Convert.ToInt32(context.GetRouteValue("id"));
+            var repo = new LivroRepositorioCSV();
+            var livro = repo.Todos.First(l => l.Id == id);
+
+            return context.Response.WriteAsync(livro.Detalhes());
 
         }
 
@@ -41,34 +50,13 @@ namespace Alura.ListaLeitura.App
             var livro = new Livro()
             {
                 Titulo = Convert.ToString(context.GetRouteValue("nome")),
-                Autor = Convert.ToString(context.GetRouteValue("autor"))
-                
+                Autor = Convert.ToString(context.GetRouteValue("autor")) 
             };
 
             var repo = new LivroRepositorioCSV();
             repo.Incluir(livro);
             return context.Response.WriteAsync("O livro foi adicionado com sucesso");
         }
-
-        //public Task Roteamento(HttpContext context)
-        //{
-        //    var _repo = new LivroRepositorioCSV();
-        //    var caminhosAtendidos = new Dictionary<string, RequestDelegate>
-        //    {
-        //        {"/Livros/ParaLer", LivrosParaLer},
-        //        {"/Livros/Lendo", LivrosLendo},
-        //        {"/Livros/Lidos", LivrosLidos}
-        //    };
-
-        //    if (caminhosAtendidos.ContainsKey(context.Request.Path))
-        //    {
-        //        var metodo = caminhosAtendidos[context.Request.Path];
-        //        return metodo.Invoke(context);
-        //    }
-        //    context.Response.StatusCode = 404;
-        //    return context.Response.WriteAsync("Caminho inexistente.");
-
-        //}
 
         public Task LivrosParaLer(HttpContext context)
         {
