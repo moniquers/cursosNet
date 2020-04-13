@@ -40,11 +40,10 @@ namespace Alura.ListaLeitura.App
 
         private Task ProcessaFormulario(HttpContext context)
         {
-            //insere livro via formulário com método GET
             var livro = new Livro()
             {
-                Titulo = context.Request.Query["titulo"].First(),
-                Autor = context.Request.Query["autor"].First()
+                Titulo = context.Request.Form["titulo"].First(),
+                Autor = context.Request.Form["autor"].First()
             };
 
             var repo = new LivroRepositorioCSV();
@@ -79,7 +78,6 @@ namespace Alura.ListaLeitura.App
 
         public Task NovoLivroParaLer(HttpContext context)
         {
-            //insere livro usando rota com template:  routeBuilder.MapRoute("Cadastro/NovoLivro/{titulo}/{autor}", NovoLivroParaLer);
             var livro = new Livro()
             {
                 Titulo = Convert.ToString(context.GetRouteValue("titulo")),
