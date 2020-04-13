@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Alura.ListaLeitura.App.Negocio;
@@ -39,6 +40,7 @@ namespace Alura.ListaLeitura.App
 
         private Task ProcessaFormulario(HttpContext context)
         {
+            //insere livro via formulário com método GET
             var livro = new Livro()
             {
                 Titulo = context.Request.Query["titulo"].First(),
@@ -52,15 +54,17 @@ namespace Alura.ListaLeitura.App
 
         private Task ExibeFormulario(HttpContext context)
         {
-            var html = @"
-            <html>
-                <form action='/Cadastro/Incluir'>
-                    <input name='titulo' />
-                    <input name='autor' />
-                    <button>Gravar</button>
-                </form>
-            </html>";
+            var html = CarregaArquivoHTML("formulario");
             return context.Response.WriteAsync(html);
+        }
+
+        private string CarregaArquivoHTML(string nomeArquivo)
+        {
+            var nomeCompletoArquivo = $"HTML/{nomeArquivo}.html";
+            using (var arquivo = File.OpenText(nomeCompletoArquivo))
+            {
+                return arquivo.ReadToEnd();
+            }
         }
 
         private Task ExibeDetalhes(HttpContext context)
@@ -75,10 +79,11 @@ namespace Alura.ListaLeitura.App
 
         public Task NovoLivroParaLer(HttpContext context)
         {
+            //insere livro usando rota com template:  routeBuilder.MapRoute("Cadastro/NovoLivro/{titulo}/{autor}", NovoLivroParaLer);
             var livro = new Livro()
             {
                 Titulo = Convert.ToString(context.GetRouteValue("titulo")),
-                Autor = Convert.ToString(context.GetRouteValue("autor")) 
+                Autor = Convert.ToString(context.GetRouteValue("autor"))
             };
 
             var repo = new LivroRepositorioCSV();

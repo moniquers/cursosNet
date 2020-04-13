@@ -9,10 +9,13 @@
 
   <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.4.0" />
-    <PackageReference Include="Microsoft.AspNetCore"/>
+    <PackageReference Include="Microsoft.AspNetCore" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="HTML\formulario.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Repositorio\livros.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
