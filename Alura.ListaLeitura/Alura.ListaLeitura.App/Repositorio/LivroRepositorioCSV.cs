@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Alura.ListaLeitura.App.Negocio;
+using Alura.ListaLeitura.App.Models;
 using System.IO;
 using System.Linq;
 

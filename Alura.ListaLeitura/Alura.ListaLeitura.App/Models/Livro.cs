@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Alura.ListaLeitura.App.Negocio
+namespace Alura.ListaLeitura.App.Models
 {
     public class Livro
     {
@@ -16,6 +16,7 @@ namespace Alura.ListaLeitura.App.Negocio
             stringBuilder.AppendLine("=====");
             stringBuilder.AppendLine($"Título: {Titulo}");
             stringBuilder.AppendLine($"Autor: {Autor}");
+
             stringBuilder.AppendLine($"Lista: {Lista.Titulo}");
             return stringBuilder.ToString();
         }
